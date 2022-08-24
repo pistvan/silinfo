@@ -49,6 +49,39 @@ const generateColorizeButton = ($table) => {
 	return $button;
 }
 
+/**
+ * Táblázatot generál jQuery-vel, Promise-t ad vissza.
+ * @param {number} rows Sorok száma
+ * @param {number} columns Oszlopok száma
+ * @returns Promise
+ */
+const generateTableWithJsStrategyAsync = (rows, columns) => new Promise((resolve) => {
+	$table = generateTable(rows, columns);
+	resolve($table);
+});
+
+/**
+ * Táblázatot generál PHP-val (AJAX), Promise-t ad vissza.
+ * @param {number} rows Sorok száma
+ * @param {number} columns Oszlopok száma
+ * @returns Promise
+ */
+ const generateTableWithPhpStrategyAsync = (rows, columns) => new Promise((resolve, reject) => {
+	$.ajax({
+		url: '../php-tasks/generate-table.php',
+		data: {
+			rows,
+			columns,
+		},
+		dataType: 'html',
+	}).done((data) => {
+		$table = $(data);
+		resolve($table);
+	}).fail((data, textStatus, errorThrown) => {
+		reject(errorThrown);
+	});
+});
+
 $(function() {
 	let $saveButton = $('#saveButton');
 	let $target = $('#generated');
@@ -57,9 +90,27 @@ $(function() {
 		const rows = $('#rows').val();
 		const columns = $('#columns').val();
 
-		const $table = generateTable(rows, columns);
-		const $button = generateColorizeButton($table);
+		const strategy = $('input[name=strategy]:checked').val() || '';
+		let strategyFunction;
 
-		$target.html('').append($table).append($button);
+		switch (strategy) {
+			case 'php':
+				strategyFunction = generateTableWithPhpStrategyAsync;
+				break;
+			case 'js':
+				strategyFunction = generateTableWithJsStrategyAsync;
+				break;
+			default:
+				alert('A rádiógomb nincs kiválasztva.');
+				return false;
+		}
+
+		strategyFunction(rows, columns).then(($table) => {
+			let $button = generateColorizeButton($table);
+			$target.html('').append($table).append($button);
+		}, (error) => {
+			$target.html('');
+			alert('Hiba történt: ' + error);
+		});
 	});
 });
