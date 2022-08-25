@@ -1,6 +1,6 @@
 import { Box, Button, Container, createTheme, Link, TextField, ThemeProvider } from "@mui/material";
 import { green } from "@mui/material/colors";
-import useForgottenPasswordModal from "./ForgottenPasswordModal";
+import useForgottenPasswordModal from "./ForgottenPassword/ForgottenPasswordModal";
 
 const LoginPage = () => {
 	const theme = createTheme({
