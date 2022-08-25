@@ -86,7 +86,7 @@ const ForgottenPasswordModal = (props) => {
 						alignItems: 'center',
 					}}>
 						<Grid item>
-							{state == FormState.Loading && <CircularProgress />}
+							{state === FormState.Loading && <CircularProgress />}
 						</Grid>
 						<Grid item>
 							<Link onClick={props.handleClose}>
