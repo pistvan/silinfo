@@ -1,5 +1,6 @@
 import { Box, Button, Container, createTheme, Link, TextField, ThemeProvider } from "@mui/material";
 import { green } from "@mui/material/colors";
+import useForgottenPasswordModal from "./ForgottenPasswordModal";
 
 const LoginPage = () => {
 	const theme = createTheme({
@@ -11,8 +12,11 @@ const LoginPage = () => {
 		}
 	});
 
+	const fpModal = useForgottenPasswordModal();
+
 	return (
 	<ThemeProvider theme={theme}>
+		<fpModal.Component />
 		<Container maxWidth="sm" sx={{
 			borderWidth: '1px',
 			borderColor: green[800],
@@ -57,7 +61,7 @@ const LoginPage = () => {
 				>
 					Bejelentkezés
 				</Button>
-				<Link>
+				<Link onClick={fpModal.show}>
 					Elfelejtettem a jelszavam
 				</Link>
 			</Box>
