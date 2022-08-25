@@ -1,8 +1,10 @@
-import { Box, Button, Container, createTheme, Link, TextField, ThemeProvider } from "@mui/material";
+import { Backdrop, Box, Button, CircularProgress, Container, createTheme, Link, TextField, ThemeProvider } from "@mui/material";
 import { green } from "@mui/material/colors";
+import { useState } from "react";
+import sendLoginRequest from "./BackendService"
 import useForgottenPasswordModal from "./ForgottenPassword/ForgottenPasswordModal";
 
-const LoginPage = () => {
+const LoginPage = ({ setToken }) => {
 	const theme = createTheme({
 		palette: {
 			primary: {
@@ -13,6 +15,34 @@ const LoginPage = () => {
 	});
 
 	const fpModal = useForgottenPasswordModal();
+
+	const [formState, setFormState] = useState({
+		username: '',
+		password: '',
+	});
+
+	const handleInputChange = (e) => {
+		setFormState((state) => ({
+			...state,
+			[e.currentTarget.name]: e.currentTarget.value,
+		}));
+	}
+
+	const [isLoading, setLoading] = useState(false);
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		setLoading(true);
+
+		sendLoginRequest(formState).then((data) => {
+			setToken(data.token);
+		}).catch((error) => {
+			alert('Hiba történt: ' + error);
+		}).finally(() => {
+			setLoading(false);
+		});
+	}
 
 	return (
 	<ThemeProvider theme={theme}>
@@ -25,16 +55,22 @@ const LoginPage = () => {
 			padding: 2,
 			mt: 2,
 		}}>
-			<Box component="form" sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-			}}>
+			<Box
+				component="form"
+				onSubmit={handleSubmit}
+				sx={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+				}}
+			>
 				<div>Jelentkezz be a felhasználóneveddel és jelszavaddal!</div>
 				<TextField
 					required
 					id="username"
 					name="username"
+					value={formState.username}
+					onChange={handleInputChange}
 					label="Felhasználónév"
 					fullWidth
 					margin="normal"
@@ -44,6 +80,8 @@ const LoginPage = () => {
 					required
 					id="password"
 					name="password"
+					value={formState.password}
+					onChange={handleInputChange}
 					label="Jelszó"
 					fullWidth
 					margin="normal"
@@ -66,6 +104,11 @@ const LoginPage = () => {
 				</Link>
 			</Box>
 		</Container>
+		<Backdrop
+			open={isLoading}
+		>
+			<CircularProgress />
+		</Backdrop>
 	</ThemeProvider>
 	);
 }
