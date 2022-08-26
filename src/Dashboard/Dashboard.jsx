@@ -2,8 +2,7 @@ import { Typography } from "@mui/material";
 import { Fragment } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
-
-const clubs = <p>Társaságok almenü.</p>
+import clubRoutes from "../Club/routes";
 
 const index = <Fragment>
 	<Typography variant="h6" component="h1">
@@ -20,7 +19,7 @@ const Dashboard = () => {
 		<Layout>
 			<Routes>
 				<Route path="/" element={index} />
-				<Route path="/clubs" element={clubs} />
+				{clubRoutes}
 			</Routes>
 		</Layout>
 	</BrowserRouter>
