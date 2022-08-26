@@ -1,4 +1,4 @@
-import { Box, Modal } from "@mui/material";
+import { Box, Modal, Typography } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from "react";
 import style from "./style";
@@ -15,16 +15,20 @@ const EmailSentModal = (props) => {
 					pr: style.p,
 					cursor: 'pointer',
 				}} />
-				<div style={{
-					'text-transform': 'uppercase',
-					'margin-bottom': '1em',
-				}}>Elfelejtettem a jelszavam</div>
-				<div>
+				<Typography
+					mb={2}
+					sx={{
+						textTransform: 'uppercase',
+					}}
+				>
+					Elfelejtettem a jelszavam
+				</Typography>
+				<Typography>
 					Sikeres mentés!
 					Amennyiben helyes e-mail-címet adott meg,
 					kérjük ellenőrizze a postafiókját, ahová
 					további információkat küldtünk!
-				</div>
+				</Typography>
 			</Box>
 		</Modal>
 	);

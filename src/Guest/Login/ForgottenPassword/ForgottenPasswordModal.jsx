@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress, Grid, Link, Modal, TextField, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, Grid, Link, Modal, TextField, Typography, useTheme } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import { useState, Fragment } from "react";
 import style from "./style";
@@ -49,17 +49,27 @@ const ForgottenPasswordModal = (props) => {
 						pr: style.p,
 						cursor: 'pointer',
 					}} />
-					<div style={{
-						'text-transform': 'uppercase',
-						'margin-bottom': '1em',
-					}}>Elfelejtettem a jelszavam</div>
-					<div style={{
-						'color': theme.palette.primary.main,
-						'font-size': '1.1rem',
-						'font-weight': 'bold',
-						'margin-bottom': '1em',
-					}}>Kérem, adja meg e-mail címét!</div>
-					<small>Figyelem! Active Directory-s felhasználói fiók használata esetén nincs lehetőség jelszó módosítására a rendszeren belül!</small>
+					<Typography
+						mb={2}
+						sx={{
+							textTransform: 'uppercase',
+						}}
+					>
+						Elfelejtettem a jelszavam
+					</Typography>
+					<Typography
+						mb={2}
+						sx={{
+							color: theme.palette.primary.main,
+							fontWeight: 'bold',
+							fontSize: '1.1rem',
+						}}
+					>
+						Kérem, adja meg e-mail címét!
+					</Typography>
+					<Typography variant="small" component="small">
+						Figyelem! Active Directory-s felhasználói fiók használata esetén nincs lehetőség jelszó módosítására a rendszeren belül!
+					</Typography>
 					<Grid container sx={{
 						justifyContent: 'center',
 						gap: '0.5em',

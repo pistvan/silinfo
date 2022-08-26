@@ -1,7 +1,9 @@
+import { Typography } from "@mui/material";
+
 const Dashboard = () => {
-	return <p>
+	return <Typography>
 		Sikeres belépés.
-	</p>
+	</Typography>
 }
 
 export default Dashboard;

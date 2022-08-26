@@ -1,4 +1,4 @@
-import { Backdrop, Box, Button, CircularProgress, Container, createTheme, Link, TextField, ThemeProvider } from "@mui/material";
+import { Backdrop, Box, Button, CircularProgress, Container, createTheme, Link, TextField, ThemeProvider, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { useState } from "react";
 import sendLoginRequest from "./BackendService"
@@ -64,7 +64,9 @@ const LoginPage = ({ setToken }) => {
 					alignItems: 'center',
 				}}
 			>
-				<div>Jelentkezz be a felhasználóneveddel és jelszavaddal!</div>
+				<Typography>
+					Jelentkezz be a felhasználóneveddel és jelszavaddal!
+				</Typography>
 				<TextField
 					required
 					id="username"
