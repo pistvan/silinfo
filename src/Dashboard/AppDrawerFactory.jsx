@@ -2,6 +2,7 @@ import { Box, Collapse, Drawer, List, ListItem, ListItemButton, ListItemText, To
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import React, { Fragment, useState } from "react";
 import menuGroups from "./menuGroups";
+import { Link } from "react-router-dom";
 
 const width = 240;
 
@@ -23,11 +24,13 @@ const MenuGroup = (group, key) => {
 			in={open}
 		>
 			<List component="div">
-				{group.items.map((item, index) => <ListItem disablePadding sx={{ pl: 4 }} key={index}>
-					<ListItemButton>
-						<ListItemText primary={item.title} />
-					</ListItemButton>
-				</ListItem>)}
+				{group.items.map((item, index) => 
+					<ListItem disablePadding sx={{ pl: 4 }} key={index} component={Link} to={item.url}>
+						<ListItemButton>
+							<ListItemText primary={item.title} />
+						</ListItemButton>
+					</ListItem>)
+				}
 			</List>
 		</Collapse>
 	</Fragment>

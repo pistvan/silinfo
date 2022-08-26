@@ -4,7 +4,7 @@ const menuGroups = [
 		items: [
 			{
 				title: 'Társaságok',
-				url: 'todo',
+				url: 'clubs',
 			},
 			{
 				title: 'Felhasználók',
