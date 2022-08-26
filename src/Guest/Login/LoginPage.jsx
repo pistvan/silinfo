@@ -1,19 +1,10 @@
-import { Backdrop, Box, Button, CircularProgress, Container, createTheme, Link, TextField, ThemeProvider, Typography } from "@mui/material";
+import { Backdrop, Box, Button, CircularProgress, Container, Link, TextField, Typography } from "@mui/material";
 import { green } from "@mui/material/colors";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import sendLoginRequest from "./BackendService"
 import useForgottenPasswordModal from "./ForgottenPassword/ForgottenPasswordModal";
 
 const LoginPage = ({ setToken }) => {
-	const theme = createTheme({
-		palette: {
-			primary: {
-				main: green[500],
-				contrastText: 'white',
-			},
-		}
-	});
-
 	const fpModal = useForgottenPasswordModal();
 
 	const [formState, setFormState] = useState({
@@ -45,7 +36,7 @@ const LoginPage = ({ setToken }) => {
 	}
 
 	return (
-	<ThemeProvider theme={theme}>
+	<Fragment>
 		<fpModal.Component />
 		<Container maxWidth="sm" sx={{
 			borderWidth: '1px',
@@ -111,7 +102,7 @@ const LoginPage = ({ setToken }) => {
 		>
 			<CircularProgress />
 		</Backdrop>
-	</ThemeProvider>
+	</Fragment>
 	);
 }
 
