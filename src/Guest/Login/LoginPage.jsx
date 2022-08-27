@@ -5,33 +5,43 @@ import sendLoginRequest from "./BackendService"
 import useForgottenPasswordModal from "./ForgottenPassword/ForgottenPasswordModal";
 
 const LoginPage = ({ setToken }) => {
-	const fpModal = useForgottenPasswordModal();
-
-	const [formState, setFormState] = useState({
-		username: '',
-		password: '',
+	const [state, setState] = useState({
+		form: {
+			username: '',
+			password: '',
+		},
+		loading: false,
 	});
 
+	const fpModal = useForgottenPasswordModal();
+
 	const handleInputChange = (e) => {
-		setFormState((state) => ({
+		setState((state) => ({
 			...state,
-			[e.target.name]: e.target.value,
+			form: {
+				...state.form,
+				[e.target.name]: e.target.value,
+			},
 		}));
 	}
-
-	const [isLoading, setLoading] = useState(false);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		setLoading(true);
+		setState((state) => ({
+			...state,
+			loading: true,
+		}));
 
-		sendLoginRequest(formState).then((data) => {
+		sendLoginRequest(state.form).then((data) => {
 			setToken(data.token);
 		}).catch((error) => {
 			alert('Hiba történt: ' + error);
 		}).finally(() => {
-			setLoading(false);
+			setState((state) => ({
+				...state,
+				loading: false,
+			}));
 		});
 	}
 
@@ -62,7 +72,7 @@ const LoginPage = ({ setToken }) => {
 					required
 					id="username"
 					name="username"
-					value={formState.username}
+					value={state.form.username}
 					onChange={handleInputChange}
 					label="Felhasználónév"
 					fullWidth
@@ -73,7 +83,7 @@ const LoginPage = ({ setToken }) => {
 					required
 					id="password"
 					name="password"
-					value={formState.password}
+					value={state.form.password}
 					onChange={handleInputChange}
 					label="Jelszó"
 					fullWidth
@@ -98,7 +108,7 @@ const LoginPage = ({ setToken }) => {
 			</Box>
 		</Container>
 		<Backdrop
-			open={isLoading}
+			open={state.loading}
 		>
 			<CircularProgress />
 		</Backdrop>

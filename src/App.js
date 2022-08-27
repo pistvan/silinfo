@@ -1,5 +1,4 @@
 import { createTheme, ThemeProvider } from '@mui/material';
-import { green } from '@mui/material/colors';
 import { useState } from 'react';
 import './App.css';
 import Dashboard from './Dashboard/Dashboard';

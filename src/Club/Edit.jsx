@@ -53,6 +53,7 @@ const Edit = () => {
 		if (id) {
 			handleInitialize();
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const handleInputChange = (e) => {
@@ -73,7 +74,10 @@ const Edit = () => {
 
 	if (state.loading) {
 		return <Backdrop
-			sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+			sx={{
+				color: '#fff',
+				zIndex: (theme) => theme.zIndex.drawer + 1,
+			}}
 			open={true}
 		>
 			<CircularProgress color="primary" />

@@ -1,6 +1,6 @@
 import { Backdrop, Box, Button, CircularProgress, IconButton, MenuItem, Pagination, Select, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Link, useLinkClickHandler } from "react-router-dom";
 
 const TableComponent = ({items}) => {
@@ -24,7 +24,7 @@ const TableComponent = ({items}) => {
 					<TableRow key={item.id}>
 						<TableCell component="th">
 							{item.name}
-							</TableCell>
+						</TableCell>
 						<TableCell>
 							<Switch
 								checked={item.active}

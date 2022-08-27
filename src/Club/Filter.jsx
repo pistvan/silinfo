@@ -16,10 +16,10 @@ const Filter = (props) => {
 	const [formState, setFormState] = useState(defaultValues);
 
 	const handleInputChange = (e) => {
-		setFormState({
-			...formState,
+		setFormState((state) => ({
+			...state,
 			[e.target.name]: e.target.value,
-		});
+		}));
 	}
 
 	const handleReset = (e) => {

@@ -10,6 +10,8 @@ const paginateValues = [2, 5]
 const Clubs = () => {
 	const [state, setState] = useState({
 		items: null,
+		total: null,
+		filter: {},
 		paginate: {
 			size: paginateValues[0],
 			page: 0,
@@ -29,7 +31,7 @@ const Clubs = () => {
 			loading: true,
 		}));
 
-		Backend.getElements(query, ({ ...state.paginate, page: 1 })).then((response) => {
+		Backend.getElements(query, { ...state.paginate, page: 1 }).then((response) => {
 			setState((state) => ({
 				...state,
 				items: response.items,
@@ -64,6 +66,7 @@ const Clubs = () => {
 		if (state.items === null) {
 			handleFilter({});
 		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return <Fragment>
