@@ -15,7 +15,7 @@ const LoginPage = ({ setToken }) => {
 	const handleInputChange = (e) => {
 		setFormState((state) => ({
 			...state,
-			[e.currentTarget.name]: e.currentTarget.value,
+			[e.target.name]: e.target.value,
 		}));
 	}
 
