@@ -7,9 +7,15 @@ import LoginPage from './Guest/Login/LoginPage';
 
 const theme = createTheme({
 	palette: {
+		background: {
+			default: '#f9f9f9',
+		},
 		primary: {
-			main: green[500],
+			main: '#5db47c',
 			contrastText: 'white',
+		},
+		warn: {
+			main: '#e57681',
 		},
 	}
 });
@@ -19,7 +25,7 @@ function App() {
 
 	return <ThemeProvider theme={theme}>
 		<div className="App">
-			{(true || token)
+			{token
 				? <Dashboard />
 				: <LoginPage setToken={setToken} />
 			}
