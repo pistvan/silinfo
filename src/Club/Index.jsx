@@ -8,7 +8,7 @@ import List from "./List";
 const Clubs = () => {
 	const [state, setState] = useState({
 		items: null,
-		loading: false,
+		loading: true,
 	});
 
 	const handleFilter = (query) => {
@@ -30,10 +30,10 @@ const Clubs = () => {
 	}
 
 	useEffect(() => {
-		if (state.items === null && !state.loading) {
+		if (state.items === null) {
 			handleFilter({});
 		}
-	});
+	}, []);
 
 	return <Fragment>
 		<Breadcrumbs>
