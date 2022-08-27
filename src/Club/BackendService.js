@@ -100,7 +100,7 @@ const methods = {
 		setTimeout(callback, 500);
 	}),
 
-	getElements: (filter, paginate) => new Promise((resolve, reject) => {
+	getElements: (filter, paginate) => new Promise((resolve) => {
 		let filterCallbacks = [];
 
 		if (filter.name) {
@@ -119,7 +119,17 @@ const methods = {
 			filteredElements = filteredElements.filter(callback);
 		});
 
-		setTimeout(() => resolve(filteredElements), 500);
+		const result = {
+			// slice according to paginate
+			items: filteredElements.slice(
+				paginate.size * (paginate.page - 1),
+				paginate.size * (paginate.page)
+			),
+			// total number of elements (required by paginate)
+			total: filteredElements.length,
+		}
+
+		setTimeout(() => resolve(result), 500);
 	}),
 }
 

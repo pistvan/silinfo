@@ -1,9 +1,7 @@
-import { Backdrop, Box, Button, CircularProgress, IconButton, MenuItem, Select, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Backdrop, Box, Button, CircularProgress, IconButton, MenuItem, Pagination, Select, Stack, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import { Fragment, useState } from "react";
 import { Link, useLinkClickHandler } from "react-router-dom";
-
-const paginateValues = [2, 5]
 
 const TableComponent = ({items}) => {
 	if (!items || items.length === 0) {
@@ -47,16 +45,9 @@ const TableComponent = ({items}) => {
 }
 
 const List = (props) => {
-	const [pageSize, setPageSize] = useState(paginateValues[0]);
-
-	const handlePaginate = (size) => {
-		console.log("Paginate by " + size);
-		setPageSize(size);
-	}
-
 	const handleCreateButton = useLinkClickHandler("/clubs/create");
 
-	if (props.state.loading) {
+	if (props.loading) {
 		return <Backdrop
 			sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
 			open={true}
@@ -76,13 +67,13 @@ const List = (props) => {
 					Tételek száma
 				</Typography>
 				<Select
-					value={pageSize}
-					onChange={(e) => handlePaginate(e.target.value)}
+					value={props.paginate.size}
+					onChange={(e) => props.handlePaginate({ size: e.target.value, page: 1 })}
 					sx={{
 						minWidth: '6em',
 					}}
 				>
-					{paginateValues.map((value, index) => (
+					{props.paginateValues.map((value, index) => (
 						<MenuItem value={value} key={index}>{value}</MenuItem>
 					))}
 				</Select>
@@ -97,7 +88,20 @@ const List = (props) => {
 				</Button>
 			</Box>
 		</Box>
-		<TableComponent items={props.state.items} />
+
+		<TableComponent items={props.items} />
+
+		<Stack mt={3}>
+			<Pagination
+				count={Math.max(1, Math.ceil(props.total / props.paginate.size))}
+				page={props.paginate.page}
+				onChange={(e, page) => props.handlePaginate({ ...props.paginate, page })}
+				color="primary"
+				sx={{
+					mx: 'auto',
+				}}
+			/>
+		</Stack>
 	</Fragment>
 }
 
