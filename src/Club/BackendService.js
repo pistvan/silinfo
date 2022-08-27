@@ -39,12 +39,36 @@ const elements = [
 
 const methods = {
 	createOrUpdateElement: (data) => new Promise((resolve, reject) => {
-		// TODO: save content
-		setTimeout(resolve, 500);
+		let callback;
+
+		if (data.id) {
+			// update
+			let elementIndex = elements.findIndex((el) => el.id === data.id);
+			if (elementIndex >= 0) {
+				elements[elementIndex] = data;
+				callback = () => resolve();
+			} else {
+				callback = () => reject('A keresett elem nem található.');
+			}
+		} else {
+			// create
+			// generate random id
+			data.id = Math.random().toString(36).substring(2);
+			elements.push(data);
+			callback = () => resolve();
+		}
+
+		setTimeout(callback, 500);
 	}),
 
 	getElement: (id) => new Promise((resolve, reject) => {
-		setTimeout(() => resolve({}), 500);
+		const element = elements.find((el) => el.id === id);
+
+		const callback = element
+			? () => resolve(element)
+			: () => reject('A keresett elem nem található.');
+
+		setTimeout(callback, 500);
 	}),
 
 	getElements: (filter, paginate) => new Promise((resolve, reject) => {

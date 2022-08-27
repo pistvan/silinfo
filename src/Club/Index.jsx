@@ -1,5 +1,5 @@
 import { Breadcrumbs, Typography } from "@mui/material";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Backend from "./BackendService";
 import Filter from "./Filter";
@@ -29,9 +29,11 @@ const Clubs = () => {
 		});
 	}
 
-	if (state.items === null && !state.loading) {
-		handleFilter({});
-	}
+	useEffect(() => {
+		if (state.items === null && !state.loading) {
+			handleFilter({});
+		}
+	});
 
 	return <Fragment>
 		<Breadcrumbs>
