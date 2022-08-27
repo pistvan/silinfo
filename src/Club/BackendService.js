@@ -1,41 +1,70 @@
-// emulate content
-const elements = [
-	{
-		id: 'random1',
-		name: 'Első elem',
-		active: true,
+const storage = {
+	elements: [
+		{
+			id: 'random1',
+			name: 'Első elem',
+			active: true,
+		},
+		{
+			id: 'random2',
+			name: 'Második elem',
+			active: false,
+		},
+		{
+			id: 'random3',
+			name: 'Harmadik elem',
+			active: true,
+		},
+		{
+			id: 'random4',
+			name: 'Negyedik elem',
+			active: true,
+		},
+		{
+			id: 'random5',
+			name: 'Ötödik elem',
+			active: false,
+		},
+		{
+			id: 'random6',
+			name: 'Hatodik elem',
+			active: false,
+		},
+		{
+			id: 'random7',
+			name: 'Hetedik elem',
+			active: true,
+		},
+	],
+	
+	init: function() {
+		if (!window.localStorage.getItem('elements')) {
+			this.save(this.elements);
+		}
 	},
-	{
-		id: 'random2',
-		name: 'Második elem',
-		active: false,
+
+	save: function(elements) {
+		window.localStorage.setItem('elements', JSON.stringify(elements));
 	},
-	{
-		id: 'random3',
-		name: 'Harmadik elem',
-		active: true,
+
+	load: function() {
+		return JSON.parse(window.localStorage.getItem('elements') || '{}');
 	},
-	{
-		id: 'random4',
-		name: 'Negyedik elem',
-		active: true,
+
+	push: function(item) {
+		let elements = this.load();
+		elements.push(item);
+		this.save(elements);
 	},
-	{
-		id: 'random5',
-		name: 'Ötödik elem',
-		active: false,
-	},
-	{
-		id: 'random6',
-		name: 'Hatodik elem',
-		active: false,
-	},
-	{
-		id: 'random7',
-		name: 'Hetedik elem',
-		active: true,
-	},
-];
+
+	update: function(index, newValue) {
+		let elements = this.load();
+		elements[index] = newValue;
+		this.save(elements);
+	}
+}
+
+storage.init();
 
 const methods = {
 	createOrUpdateElement: (data) => new Promise((resolve, reject) => {
@@ -43,9 +72,9 @@ const methods = {
 
 		if (data.id) {
 			// update
-			let elementIndex = elements.findIndex((el) => el.id === data.id);
+			let elementIndex = storage.load().findIndex((el) => el.id === data.id);
 			if (elementIndex >= 0) {
-				elements[elementIndex] = data;
+				storage.update(elementIndex, data);
 				callback = () => resolve();
 			} else {
 				callback = () => reject('A keresett elem nem található.');
@@ -54,7 +83,7 @@ const methods = {
 			// create
 			// generate random id
 			data.id = Math.random().toString(36).substring(2);
-			elements.push(data);
+			storage.push(data);
 			callback = () => resolve();
 		}
 
@@ -62,7 +91,7 @@ const methods = {
 	}),
 
 	getElement: (id) => new Promise((resolve, reject) => {
-		const element = elements.find((el) => el.id === id);
+		const element = storage.load().find((el) => el.id === id);
 
 		const callback = element
 			? () => resolve(element)
@@ -85,7 +114,7 @@ const methods = {
 		}
 
 		// filter through all callbacks
-		let filteredElements = elements;
+		let filteredElements = storage.load();
 		filterCallbacks.forEach((callback) => {
 			filteredElements = filteredElements.filter(callback);
 		});
